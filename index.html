@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AJAX Blog</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+  <div class="jumbotron jumbotron-fluid text-dark">
+    <div class="container">
+      <h1 class="display-3">AJAX Blog</h1>
+      <p>About the World that I Live in.</p>
+      <p>
+        <button id="create-post" class="btn btn-dark">Create a New Post</button>
+      </p>
+    </div>
+  </div>
+  <div class='container'>
+    <div class='row'>
+      <div class='col-4'>
+        <ul class="list-group" id='post-list'>
+          <li class="list-group-item active">Custom</li>
+          <!-- append more li -->
+        </ul>
+      </div>
+      <div class='col-8' id='display-pf'>
+        <!-- innerHTMl toggle form or show post -->
+
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="./bundle.js"></script>
+</body>
+
+</html>

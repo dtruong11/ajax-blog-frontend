@@ -1,0 +1,7 @@
+.container {
+  max-width: 77%;
+}
+
+.jumbotron {
+  background-image: url("bg.jpg");
+}
