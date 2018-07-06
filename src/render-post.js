@@ -1,4 +1,4 @@
-function renderPost (title, body) {
+function renderPost (title, content) {
   return `
     <div id='shown-post'>
     <header>

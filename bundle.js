@@ -9,40 +9,103 @@ function addToList (title) {
 module.exports = addToList;
 
 },{}],2:[function(require,module,exports){
-const renderForms = require('./render-form')
-const renderList = require('./render-list')
-const addToList = require('./add-to-list')
-const renderPost = require('./render-post')
+function getAll() {
+  return axios.get(`https://dt-ajax-blog.herokuapp.com/posts`)
+}
 
-document.querySelector('#create-post').addEventListener('click', function() {
-  // the form appears in col-8
+function getOne(id) {
+  return axios.get(`https://dt-ajax-blog.herokuapp.com/posts/${id}`)
+}
+
+function create(title, content) {
+  return axios.post(`https://dt-ajax-blog.herokuapp.com/posts/`, {
+    title,
+    content
+  })
+}
+
+function update(id, body) {
+  return axios.put(`https://dt-ajax-blog.herokuapp.com/posts/${id}`, body)
+}
+
+function destroy(id) {
+  return axios.put(`https://dt-ajax-blog.herokuapp.com/posts/${id}`)
+}
+
+module.exports = {
+  getAll,
+  getOne,
+  create,
+  update,
+  destroy
+}
+
+},{}],3:[function(require,module,exports){
+const renderFormTemplate = require('./form-template')
+const submitForm = require('./submit-form')
+
+
+function displayForm() {
   document.querySelector('#display-pf').innerHTML = '';
-  document.querySelector('#display-pf').innerHTML = renderForms();
-  // link: /posts/new
-})
-
-const form = document.querySelector('form')
-if (form) {
-  form.addEventListener('submit', submitForm)
+  document.querySelector('#display-pf').innerHTML = renderFormTemplate();
+  const postForm = document.querySelector('#post-form')
+  if (postForm) {
+    postForm.addEventListener('submit', submitForm)
+  }
+  // link: /posts/id
 }
 
-function submitForm() {
-  event.preventDefault();
+module.exports = displayForm;
 
-  // list group add a new item (title of the post)
-  const formTitle = document.querySelector('#form-title').value
-  const formBody = document.querySelector('#form-content').value
-  addToList(formTitle)
-  // list group active item moves to the last one.
+},{"./form-template":5,"./submit-form":9}],4:[function(require,module,exports){
+// if (document.querySelector('#post-form'))
+// document.querySelector('#edit-link').addEventListener('click', editForm)
+//
+// function templatePlaceholder(title, body) {
+//   return `
+//   <form id='updated-form'>
+//     <div class='form-group'>
+//       <label for="title">Title</label>
+//       <input type="text" class='form-control' id='form-title' placeholder='${title}'>
+//     </div>
+//     <div class='form-group'>
+//       <label for="content">Content</label>
+//       <input type="text" class='form-control' id='form-content' placeholder='${body}'>
+//     </div>
+//     <button type="submit" class="btn btn-success" id='update-btn'>Update Post</button>
+//   </form>
+//   `
+// }
+//
+// function editForm(title, body) {
+//   document.querySelector('#display-pf').innerHTML = templatePlaceholder(title, body)
+// }
+//
+// const updatedForm = document.querySelector('#updated-form')
+// if(updatedForm) {
+//   updatedForm.addEventListener('submit', updatePost)
+// }
+//
+// function updatePost (title) {
+//   // remove the title on the list group
+//
+//
+//   // append new title to the end of list group
+//
+//
+//   //remove other actives + add it to the newly created list-group item
+//
+//
+// }
+//
+// module.exports = {
+//   editForm,
+// }
 
-  // col-8 shows the post itself. Title + body (edit/ delete link)
-  document.querySelector('#display-pf').innerHTML = renderPost(formTitle, formBody);
-}
-
-},{"./add-to-list":1,"./render-form":3,"./render-list":4,"./render-post":5}],3:[function(require,module,exports){
-function renderForm() {
+},{}],5:[function(require,module,exports){
+function renderFormTemplate() {
   const formTemplate = `
-  <form>
+  <form id='post-form'>
     <div class='form-group'>
       <label for="title">Title</label>
       <input type="text" class='form-control' id='form-title'>
@@ -51,15 +114,33 @@ function renderForm() {
       <label for="content">Content</label>
       <input type="text" class='form-control' id='form-content'>
     </div>
-    <button type="submit" class="btn btn-success">Create a New Post</button>
+    <button type="submit" class="btn btn-success" id='create-post-btn'>Create a New Post</button>
   </form>
   `
   return formTemplate;
 }
 
-module.exports = renderForm;
+module.exports = renderFormTemplate;
 
-},{}],4:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
+const renderList = require('./render-list')
+const editForm = require('./edit-delete').editForm
+const displayForm = require('./display-form')
+const submitForm = require('./submit-form')
+
+// add listener to create post button
+document.querySelector('#create-post').addEventListener('click', displayForm)
+
+// click 'create post'
+// document.querySelector('#post-form').addEventListener('submit', submitForm)
+
+// if post is shown in col-8, add event listener
+const shownPost = document.querySelector('#shown-post')
+if (shownPost) {
+  document.querySelector('#edit-link').addEventListener('click', editForm)
+}
+
+},{"./display-form":3,"./edit-delete":4,"./render-list":7,"./submit-form":9}],7:[function(require,module,exports){
 document.querySelector('#post-list').addEventListener('click', renderList)
 
 function renderList (title, body){
@@ -88,10 +169,10 @@ function renderList (title, body){
 
 module.exports = renderList;
 
-},{}],5:[function(require,module,exports){
-function renderPost (title, body) {
+},{}],8:[function(require,module,exports){
+function renderPost (title, content) {
   return `
-    <div>
+    <div id='shown-post'>
     <header>
       <h2>${title}</h2>
       <hr>
@@ -102,10 +183,10 @@ function renderPost (title, body) {
     <div class='my-5'>
       <ul class='justify-content-end'>
         <li>
-          <a class='text-success' href="#">EDIT</a>
+          <a class='text-success' href="#" id='edit-link'>edit</a>
         </li>
         <li>
-          <a class='text-danger' href="#">DELETE</a>
+          <a class='text-danger' href="#" id='delete-link'>delete</a>
         </li>
       </ul>
     </div>
@@ -115,4 +196,36 @@ function renderPost (title, body) {
 
 module.exports = renderPost;
 
-},{}]},{},[2]);
+},{}],9:[function(require,module,exports){
+const addToList = require('./add-to-list')
+const renderPost = require('./render-post')
+const connection = require('./connections')
+
+function submitForm() {
+  event.preventDefault();
+  const formTitle = document.querySelector('#form-title').value
+  const formContent = document.querySelector('#form-content').value
+
+  // axios post
+  connection.create(formTitle, formContent)
+    .then(result => {
+      document.querySelector('#display-pf').innerHTML = renderPost(formTitle, formContent);
+      addToList(formTitle)
+      const listChildren = Array.from(document.querySelectorAll('.list-group-item'))
+      listChildren.map(el => {
+        if (el.className.includes('active')) {
+          el.classList.remove('active')
+        }
+
+        if (el.textContent.includes(formTitle)) {
+          el.classList.add('active')
+        }
+      })
+    })
+    .catch(error => {
+      console.log(error)
+    })
+}
+module.exports = submitForm
+
+},{"./add-to-list":1,"./connections":2,"./render-post":8}]},{},[6]);
