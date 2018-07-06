@@ -1,6 +1,6 @@
 function renderPost (title, body) {
   return `
-    <div>
+    <div id='shown-post'>
     <header>
       <h2>${title}</h2>
       <hr>
@@ -11,10 +11,10 @@ function renderPost (title, body) {
     <div class='my-5'>
       <ul class='justify-content-end'>
         <li>
-          <a class='text-success' href="#">EDIT</a>
+          <a class='text-success' href="#" id='edit-link'>edit</a>
         </li>
         <li>
-          <a class='text-danger' href="#">DELETE</a>
+          <a class='text-danger' href="#" id='delete-link'>delete</a>
         </li>
       </ul>
     </div>
