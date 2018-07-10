@@ -1,27 +1,20 @@
-const addToList = require('./add-to-list')
+// const addToList = require('./add-to-list')
 const renderPost = require('./render-post')
-const connection = require('./connections')
+const request = require('./request')
+const renderSidebar = require('./render-sidebar')
 
-function submitForm() {
+function submitForm(event) {
   event.preventDefault();
-  const formTitle = document.querySelector('#form-title').value
-  const formContent = document.querySelector('#form-content').value
+  const postForm = document.querySelector('#post-form')
+  const title = postForm.title.value
+  const content = postForm.content.value
 
   // axios post
-  connection.create(formTitle, formContent)
+  request.create(title, content)
     .then(result => {
-      document.querySelector('#display-pf').innerHTML = renderPost(formTitle, formContent);
-      addToList(formTitle)
-      const listChildren = Array.from(document.querySelectorAll('.list-group-item'))
-      listChildren.map(el => {
-        if (el.className.includes('active')) {
-          el.classList.remove('active')
-        }
-
-        if (el.textContent.includes(formTitle)) {
-          el.classList.add('active')
-        }
-      })
+      document.querySelector('#display-pf').innerHTML = renderPost(title, content)
+      console.log('creating...')
+      return renderSidebar()
     })
     .catch(error => {
       console.log(error)

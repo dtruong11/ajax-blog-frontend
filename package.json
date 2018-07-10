@@ -6,7 +6,7 @@
   "scripts": {
     "dev-server": "live-server .",
     "build": "browserify src/main.js -o bundle.js",
-    "watch": "watchify src/main.js -o bundle.js",
+    "watch": "watchify src/main.js -o bundle.js --ignore-watch=..\\ajax-mvc-backend\\src\\models\\data.json",
     "dev": "run-all \"npm run watch\" \"npm run dev-server\""
   },
   "keywords": [],

@@ -1,22 +1,21 @@
-function renderPost (title, content) {
+function renderPost(title, content, id) {
   return `
-    <div id='shown-post'>
+  <div id='displayed-post'>
     <header>
-      <h2>${title}</h2>
+      <h2 id='blog-title'>${title}</h2>
       <hr>
     </header>
     <div>
-      <p>${body}</p>
+      <p id='blog-content'>${content}</p>
+      <p id='selected-id' class='d-none'>${id}</p>
     </div>
-    <div class='my-5'>
-      <ul class='justify-content-end'>
-        <li>
-          <a class='text-success' href="#" id='edit-link'>edit</a>
-        </li>
-        <li>
-          <a class='text-danger' href="#" id='delete-link'>delete</a>
-        </li>
-      </ul>
+    <div class='my-5 d-flex flex-row justify-content-end'>
+      <div class='mr-2'>
+        <a class='text-success' href="#" id='edit-link'>EDIT</a>
+      </div>
+      <div>
+          <a class='text-danger' href="#" id='delete-link'>DELETE</a>
+      </div>
     </div>
   </div>
   `

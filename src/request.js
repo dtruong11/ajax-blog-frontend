@@ -18,7 +18,7 @@ function update(id, body) {
 }
 
 function destroy(id) {
-  return axios.put(`https://dt-ajax-blog.herokuapp.com/posts/${id}`)
+  return axios.delete(`https://dt-ajax-blog.herokuapp.com/posts/${id}`)
 }
 
 module.exports = {
